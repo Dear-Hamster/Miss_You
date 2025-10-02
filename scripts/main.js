@@ -15,7 +15,7 @@
   let texts = [
     'Click Me!',
     '',
-    'No Slide',
+    'Now Slide',
     'Hey Cutiee',
     'MY Cato',
     'MY Princess',
