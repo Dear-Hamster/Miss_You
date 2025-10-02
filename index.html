@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="" />
   <link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/sun0225SUN/photos/img/20210715233345.png" />
-  <script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css" />
   <title></title>
@@ -61,6 +60,7 @@
       </audio>
 
       <div id="footer" class="">
+        <div id="counter">Loading...</div>
         <svg id="scene" x="0%" y="0%" width="300%" height="100%">
           <path id="ground" d="M0,316.4209c0,0,157.7119-35.416,469-56c7.3833-0.4883,23.7876-3.5488,31.3335-4.0166
             c3.7681-0.2334,19.4302,0.9424,28.3335,0.3506c17.1494-1.1396,30.9072-4.2734,38.333-4.6836
@@ -97,19 +97,33 @@
     </div>
   </div>
 
-</body>
+<!-- CounterAPI CDN -->
+<script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
 <script>
-  counter.up('hamster')
-    .then(result => {
-      console.log("Visits:", result.value);
-      document.getElementById('counter').textContent = result.value;
-    })
-    .catch(err => {
-      console.error("CounterAPI error:", err);
-      document.getElementById('counter').textContent = "Error";
-    });
+  // Create the Counter instance
+  const counterClient = new Counter({
+    workspace: 'missyoucounterspace',
+    debug: true, // logs API calls
+    timeout: 5000
+  });
 
+  const counterEl = document.getElementById('counter');
+
+  // Increment on page load
+  async function incrementOnLoad() {
+    try {
+      const counter = await counterClient.up('missyoucounter');
+      counterEl.textContent = `Current Count: ${counter.value}`;
+    } catch (error) {
+      console.error('Error incrementing counter:', error);
+      counterEl.textContent = 'Error updating counter';
+    }
+  }
+
+  // Run the increment when page loads
+  window.addEventListener('load', incrementOnLoad);
 </script>
+</body>
 <!-- build:js scripts/main.js -->
 <script src="scripts/universe.js"></script>
 <script src="scripts/main.js"></script>
