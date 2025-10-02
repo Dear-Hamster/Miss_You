@@ -97,32 +97,27 @@
     </div>
   </div>
 
-<!-- CounterAPI CDN -->
 <script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
 <script>
-  // Create the Counter instance
-  const counterClient = new Counter({
+  // 1️⃣ Create an instance
+  const myCounter = new Counter({
     workspace: 'missyoucounterspace',
-    debug: true, // logs API calls
-    timeout: 5000
+    debug: true
   });
 
-  const counterEl = document.getElementById('counter');
-
-  // Increment on page load
-  async function incrementOnLoad() {
+  // 2️⃣ Increment on page load
+  window.addEventListener('load', async () => {
     try {
-      const counter = await counterClient.up('missyoucounter');
-      counterEl.textContent = `Current Count: ${counter.value}`;
-    } catch (error) {
-      console.error('Error incrementing counter:', error);
-      counterEl.textContent = 'Error updating counter';
+      const result = await myCounter.up('missyoucounter');
+      console.log(result); // for debugging
+      document.getElementById('counter').textContent = `Current Count: ${result.value}`;
+    } catch (err) {
+      console.error('CounterAPI error:', err);
     }
-  }
-
-  // Run the increment when page loads
-  window.addEventListener('load', incrementOnLoad);
+  });
 </script>
+
+  
 </body>
 <!-- build:js scripts/main.js -->
 <script src="scripts/universe.js"></script>
